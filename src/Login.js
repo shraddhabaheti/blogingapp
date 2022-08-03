@@ -73,7 +73,7 @@ function Login() {
                     email: email,
                     password: password
                 }
-                let responce = await fetch('https://77e9-182-77-78-112.in.ngrok.io/users/login', {
+                let responce = await fetch('http://192.168.1.27:4000/users/login', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8',

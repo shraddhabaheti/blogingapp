@@ -6,7 +6,8 @@ import Login from './Login';
 
 import PostData from './PostData';
 import Getpostdata from './Getpostdata';
-import Color from './Color';
+
+import Getpost from './Getpost';
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
     <Route path="/login" element={<Login/>}></Route>
     <Route path="/postdata" element={<PostData/>}></Route>
     <Route path="/getpostdata" element={<Getpostdata/>}></Route>
+    <Route path="/getpost" element={<Getpost/>}></Route>
       </Routes>
       </BrowserRouter>
     

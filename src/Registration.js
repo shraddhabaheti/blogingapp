@@ -166,7 +166,7 @@ function Registration() {
                     password: password,
                     confirmPassword: confirmPassword
                 }
-                let responce = await fetch('https://77e9-182-77-78-112.in.ngrok.io/users/register', {
+                let responce = await fetch('http://192.168.1.27:4000/users/register', {
                     method: 'Post',
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8',

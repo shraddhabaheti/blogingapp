@@ -24,6 +24,7 @@ function Color() {
                 <>
                   <Link to="/postdata" className='text-light  text-decoration-none m-3'>PostData</Link>
                   <Link to="/getpostdata" className='text-light  text-decoration-none m-3'>Getpostdata</Link>
+                  <Link to="/getpost" className='text-light  text-decoration-none m-3'>Getpostredux</Link>
                 </>
                 :
                 <>

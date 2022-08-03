@@ -65,6 +65,7 @@ function Getpostdata() {
         }
 
     }
+    
     return (
         <div>
             <Color />
@@ -84,7 +85,7 @@ function Getpostdata() {
                                     <ThumbUpIcon style={{color:btnColor?'blue':''}}  onClick={() => submit(value)}></ThumbUpIcon>
                             }
                             <h4>{likes}</h4>
-                           
+                          
                       </div>
 
                     )
