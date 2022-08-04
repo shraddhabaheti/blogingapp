@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Color from "./Color";
@@ -95,6 +95,16 @@ function Login() {
 
         }
     }
+    // useEffect(()=>{
+    //     let token=localStorage.getItem('token')
+    //     if(token){
+    //         navigate('/postdata')
+            
+    //     }else{
+    //         navigate('/login')
+    //     }
+        
+    // },[])
     return (
 
         <div>

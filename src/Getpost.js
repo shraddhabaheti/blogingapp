@@ -5,10 +5,8 @@ import Color from "./Color";
 
 
 function Getpost() {
-     
     const data = useSelector((state) => state.getpost.data)
-   
-    const dispatch = useDispatch();
+   const dispatch = useDispatch();
      useEffect(() => {
         dispatch(getapi())
     }, [])

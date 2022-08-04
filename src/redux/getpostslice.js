@@ -3,8 +3,7 @@ import axios from "axios";
 
 
 export const getapi=createAsyncThunk(
-
-  'getpost',
+'getpost',
   async()=>{
      
       try {
