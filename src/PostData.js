@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Color from "./Color";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
 function PostData() {
     const navigate = useNavigate();
     useEffect(() => {
@@ -13,7 +14,8 @@ function PostData() {
     const [state, setState] = useState({
         title: '',
         content: '',
-        image: ''
+        image: '',
+
     })
     const handleChange = (e) => {
         setState({
@@ -21,23 +23,23 @@ function PostData() {
             [e.target.name]: e.target.value
         })
     }
-    const handleAddfile=(e)=>{
-       
+    const handleAddfile = (e) => {
+
         setState({
             ...state,
-            [e.target.name]:e.target.files[0]
+            [e.target.name]: e.target.files[0]
         })
 
     }
     const submit = async (e) => {
-      e.preventDefault()
+        e.preventDefault()
         try {
             const { title, content, image } = state;
             let formData = new FormData();
             formData.append('title', title)
             formData.append('content', content)
-           formData.append('image',image)
-            console.log("formdata",formData)
+            formData.append('image', image)
+            console.log("formdata", formData)
             const token = localStorage.getItem('token')
             let responce = await fetch('http://192.168.1.27:4000/posts/createpost', {
                 method: 'POST',
@@ -48,26 +50,23 @@ function PostData() {
             })
             let user = await responce.json();
 
+
         } catch (error) {
             console.log(error)
+
         }
-      
-        
-    }
+     }
     return (
         <div>
             <Color />
             <h1 className="h1">Post Data with api</h1>
-            {/* <Button onClick={() => {
-                localStorage.removeItem('token')
-                navigate('/login')
-            }}>Logout</Button> */}
+
             <form onSubmit={submit}>
                 <input type="text" name="title" onChange={handleChange} /><br /><br />
                 <textarea type="text" name="content" onChange={handleChange}></textarea>
                 <br /><br />
                 <input type="file" name="image" onChange={handleAddfile} />
-                <br/><br/>
+                <br /><br />
                 <Button type="submit">Submit</Button>
             </form>
         </div>

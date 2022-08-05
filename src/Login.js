@@ -3,10 +3,14 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Color from "./Color";
 import swal from "sweetalert";
+import { CircularProgress } from "@mui/material";
+
+
 function Login() {
     const [state, setState] = useState({
         email: '',
-        password: ''
+        password: '',
+        loading:false,
     })
     const [error, setError] = useState({
         email: '',
@@ -73,6 +77,9 @@ function Login() {
                     email: email,
                     password: password
                 }
+                setState({
+                    loading :true
+                })
                 let responce = await fetch('http://192.168.1.27:4000/users/login', {
                     method: 'post',
                     headers: {
@@ -83,16 +90,29 @@ function Login() {
                 })
                 let user = await responce.json();
                 localStorage.setItem('token', user.data.token)
-                if (responce.status === 200) {
-                    swal(user.message)
-                    navigate('/postdata')
-                }
-
-            }
+                localStorage.setItem('_id',user.data._id)
+                     setTimeout(()=>{
+                        setState({
+                            loading: false
+                          
+                          })
+                          if (responce.status === 200) {
+                            swal(user.message)
+                            navigate('/postdata')
+                        }
+                     },2000)
+                  }
 
 
         } catch (error) {
-
+            setState({
+                error,
+                loading: false,
+        
+        
+        
+              })
+        
         }
     }
     // useEffect(()=>{
@@ -117,7 +137,11 @@ function Login() {
                 <label className="label">password</label>
                 <input type="text" name="password" onChange={handleChange} value={state?.password} className="input" /><br />
                 <span className="invalied-error">{error.password}</span><br />
-                <Button type="submit">Login</Button>
+              
+                <Button  className="btn" onClick={(e) => {Submit(e) }} type="submit">
+               {state.loading ? <CircularProgress color="warning" disableShrink /> : "Submit"}
+             
+        </Button>
             </form>
         </div>
     )

@@ -19,6 +19,7 @@ function Color() {
         <Container>
           <Navbar.Brand href="#home"><MenuIcon /></Navbar.Brand>
           <Nav className="me-auto">
+          
             {
               localStorage.getItem('token') ?
                 <>
@@ -32,9 +33,10 @@ function Color() {
                   <Link to="/login" className='text-light  text-decoration-none m-3'>Login</Link>
                 </>
             }
-
+             
 
             <LogoutIcon className='text-light  text-decoration-none m-3 ' onClick={logout} />
+            {/* <input type="serch" placeholder='serchbar...'/> */}
           </Nav>
         </Container>
       </Navbar>
