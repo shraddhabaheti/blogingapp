@@ -7,7 +7,7 @@ export default function PrivateRoutes() {
     let  token = localStorage.getItem("token") == null ? false : true;
     return (
         <>
-            {token ? <Outlet  /> : <Navigate to="/login" />};
+            {token ? <Outlet  /> : <Navigate to="/login" />}
         </>
 
     )
