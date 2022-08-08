@@ -89,3 +89,10 @@ border: 1px solid black;
 .logout{
   margin:500px;
 }
+.comments{
+  display: flex;
+  position: relative;
+  align-content: center;
+  align-items: center;
+  justify-content: center
+}
