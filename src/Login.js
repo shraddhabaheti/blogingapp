@@ -98,9 +98,9 @@ function Login() {
                           })
                           if (responce.status === 200) {
                             swal(user.message)
-                            navigate('/postdata')
+                            navigate('/getpostdata')
                         }
-                     },2000)
+                     },1000)
                   }
 
 
@@ -108,23 +108,10 @@ function Login() {
             setState({
                 error,
                 loading: false,
-        
-        
-        
-              })
-        
-        }
+         })
+     }
     }
-    // useEffect(()=>{
-    //     let token=localStorage.getItem('token')
-    //     if(token){
-    //         navigate('/postdata')
-            
-    //     }else{
-    //         navigate('/login')
-    //     }
-        
-    // },[])
+    
     return (
 
         <div>
@@ -139,7 +126,7 @@ function Login() {
                 <span className="invalied-error">{error.password}</span><br />
               
                 <Button  className="btn" onClick={(e) => {Submit(e) }} type="submit">
-               {state.loading ? <CircularProgress color="warning" disableShrink /> : "Submit"}
+               {state.loading ? <CircularProgress color="success" disableShrink /> : "Submit"}
              
         </Button>
             </form>

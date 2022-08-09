@@ -35,15 +35,13 @@ function Color() {
             }
              
 
-            <LogoutIcon className='text-light  text-decoration-none m-3 ' onClick={logout} />
-            {/* <input type="serch" placeholder='serchbar...'/> */}
+            <LogoutIcon className='text-light  text-decoration-none m-3' onClick={logout} />
+          
           </Nav>
         </Container>
       </Navbar>
 
-
-
-    </>
+   </>
   );
 }
 

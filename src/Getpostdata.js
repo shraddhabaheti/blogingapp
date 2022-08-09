@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import Color from "./Color";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import './App.css';
 import axios from "axios";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -23,12 +20,10 @@ function Getpostdata() {
             ...state,
             [e.target.name]: e.target.value
         })
+       
 
     }
-
-    console.log('state', state)
-
-    const getData = async () => {
+   const getData = async () => {
         const token = localStorage.getItem("token")
         let response = await fetch('http://192.168.1.27:4000/posts/getallposts', {
             method: "GET",
@@ -49,15 +44,15 @@ function Getpostdata() {
          
         try {
 
-            const _id = localStorage.getItem('_id')
+          
             const token = localStorage.getItem('token')
             const res = await axios.put(`http://192.168.1.27:4000/posts/likes`, { postid: data._id }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-           
-            getData()
+         
+         getData()
         } catch (error) {
             console.log(error)
         }
@@ -66,7 +61,7 @@ function Getpostdata() {
     }
     const unlike = async (data) => {
         try {
-            const _id = localStorage.getItem('_id')
+          
             const token = localStorage.getItem('token')
             let responce = await axios.put(`http://192.168.1.27:4000/posts/unlikes`, { postid: data._id }, {
                 headers: {
@@ -113,7 +108,11 @@ function Getpostdata() {
                         'Authorization': `Bearer ${token}`,
                 },
                 })
-
+               
+             getData()
+            setState({
+               text:''
+            })
 
         } catch (error) {
             console.log(error)
@@ -155,15 +154,15 @@ function Getpostdata() {
                                         return (
                                             <div className="comments">
                                                 <h6>{value.postedBy.name}</h6>
-                                                <p>{value.text}</p>
+                                                <p className="p">{value.text}</p>
                                             </div>
                                         )
                                     })
                                 }
                             </div>
-                            <input type="text" name="text" onChange={handleChange} />
-                            <button onClick={() => comment(value)}>comment</button>
-                            <DeleteIcon variant="danger" onClick={() => deletes(value)}>Delete</DeleteIcon>
+                            <input type="text" name="text" onChange={handleChange} value={state?.text||''}/>
+                            <button className="btncomment" onClick={() => comment(value)}>comment</button>
+                            <DeleteIcon  onClick={() => deletes(value)}>Delete</DeleteIcon>
                         </div>
                         </Card>
                         

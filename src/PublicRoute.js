@@ -7,7 +7,7 @@ export default function PublicRoute() {
     let  token = localStorage.getItem("token") == null ? true : false;
     return (
         <>
-            {token ? <Outlet  /> : <Navigate to="/getpostdata" />};
+            {token ? <Outlet  /> : <Navigate to="/getpostdata" />}
         </>
 
     )
