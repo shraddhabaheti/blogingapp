@@ -95,4 +95,28 @@ border: 1px solid black;
   align-content: center;
   align-items: center;
   justify-content: center
+  
+}
+.card{
+  width: 38rem;
+
+  padding:5px;
+ 
+  margin:5px;
+}
+.h2{
+  text-align: left;
+ 
+}
+.card1{
+  margin: auto;
+  width: 40%;
+ padding: 10px;
+ 
+}
+.button3{
+margin-right: 550px;
+}
+.length{
+       text-align: left;
 }

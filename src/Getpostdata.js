@@ -13,14 +13,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 function Getpostdata() {
     const [postData, setPostData] = useState([])
-    const [likes, setlike] = useState(true)
-    const [btnColor, setBtnColor] = useState("red");
-    
-    const [state, setState] = useState({
+    const [btnColor, setBtnColor] = useState('red');
+   const [state, setState] = useState({
         text: '',
-
-    })
-    let _id = localStorage.getItem('_id')
+     })
+    let id = localStorage.getItem('_id')
     const handleChange = (e) => {
         setState({
             ...state,
@@ -49,20 +46,17 @@ function Getpostdata() {
     }, [])
     console.log(postData)
     const like = async (data) => {
-
+         
         try {
 
             const _id = localStorage.getItem('_id')
-            console.log("++++", _id)
             const token = localStorage.getItem('token')
             const res = await axios.put(`http://192.168.1.27:4000/posts/likes`, { postid: data._id }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-
-            setlike(res?.data)
-            setlike(token)
+           
             getData()
         } catch (error) {
             console.log(error)
@@ -70,7 +64,7 @@ function Getpostdata() {
 
 
     }
-    const dislike = async (data) => {
+    const unlike = async (data) => {
         try {
             const _id = localStorage.getItem('_id')
             const token = localStorage.getItem('token')
@@ -81,10 +75,7 @@ function Getpostdata() {
                 }
 
             })
-
-            setlike(responce?.data)
-            setlike(token)
-            getData()
+         getData()
 
         } catch (error) {
 
@@ -107,8 +98,7 @@ function Getpostdata() {
 
         } catch (error) {
             console.log(error)
-
-        }
+         }
 
     }
 
@@ -121,7 +111,7 @@ function Getpostdata() {
                 {
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                    },
+                },
                 })
 
 
@@ -130,30 +120,35 @@ function Getpostdata() {
 
         }
     }
-    // debugger
+   
     return (
         <div>
             <Color />
             <h1 className="h1">Get post data</h1>
+            <div className="card1">
             {
 
                 postData.map((value, i) => {
 
                     return (
-
+                        
+                       <Card className="card">
                         <div id={value._id}>
-                            <h3 >{value.title}</h3>
-                            <h5>{value.content}</h5>
-                            <img className="image1" src={value.image[0].replace('localhost', '192.168.1.27')} />
-                            <br />
+                        <p className="h2">{value.postedBy.name}</p>
+                            <Card.Title>{value.title}</Card.Title>
+                            <Card.Text>{value.content}</Card.Text>
+                           
+                            <Card.Img className="image1" src={value.image[0].replace('localhost', '192.168.1.27')} ></Card.Img>
+                          
                             {
 
-                                value.likes.includes(_id) ?
-                                    <FavoriteBorderIcon onClick={() => dislike(value)}></FavoriteBorderIcon>
-                                    : <FavoriteIcon style={{ color: btnColor ? 'blue' : '' }} onClick={() => like(value)}></FavoriteIcon>
+                              value?.likes.includes(id) 
+                               ?<FavoriteIcon className="button3" style={{ color: btnColor ? 'red' : '' }}  onClick={() => unlike(value)}></FavoriteIcon>
+                               : <FavoriteBorderIcon  className="button3"  onClick={() => like(value)}></FavoriteBorderIcon>
+                               
                             }
-                            <h6>{value?.likes.length} likes </h6>
-                            <DeleteIcon variant="danger" onClick={() => deletes(value)}>Delete</DeleteIcon>
+                            <h6 className="length">{value?.likes?.length} likes </h6>
+                         
                             <div>
                                 {
                                     value.comments?.map((value, i) => {
@@ -167,15 +162,16 @@ function Getpostdata() {
                                 }
                             </div>
                             <input type="text" name="text" onChange={handleChange} />
-
                             <button onClick={() => comment(value)}>comment</button>
+                            <DeleteIcon variant="danger" onClick={() => deletes(value)}>Delete</DeleteIcon>
                         </div>
-
+                        </Card>
+                        
                     )
 
                 })
             }
-
+           </div>
         </div>
     )
 }
