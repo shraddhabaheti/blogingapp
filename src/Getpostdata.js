@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import Color from "./Color";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import AddIcon from '@mui/icons-material/Add';
 import './App.css';
+import Fab from '@mui/material/Fab';
 import axios from "axios";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,14 +13,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 import { Identity } from "@mui/base";
 import { FlashOnOutlined } from "@mui/icons-material";
-
+import TextField from '@mui/material/TextField';
 function Getpostdata() {
     const [postData, setPostData] = useState([])
     const [state, setState] = useState({
         text: '',
     })
     const [show, setShow] = useState([])
-     let id = localStorage.getItem('_id')
+   let id = localStorage.getItem('_id')
     const handleChange = (e) => {
         setState({
             ...state,
@@ -121,11 +123,14 @@ function Getpostdata() {
         }
     }
     const commentShow = (id) => {
+      
         if (show.includes(id)) {
             let findIndex = show.indexOf(id)
             setShow((sShow) => sShow.filter((value, index) => index !== findIndex))
+           
         } else {
             setShow((sShow) => [...sShow, id])
+           
         }
     }
    
@@ -143,12 +148,12 @@ function Getpostdata() {
 
                             <Card className="card">
                                 <div id={value._id}>
-                                    <p className="h2">{value.postedBy.name}</p>
+                                    <p className="h2">{value?.postedBy?.name}</p>
 
                                     <Card.Title>{value.title}</Card.Title>
                                     <Card.Text>{value.content}</Card.Text>
 
-                                    <Card.Img className="image1" src={value.image[0].replace('localhost', '192.168.1.27')} ></Card.Img>
+                                    <Card.Img className="image1" src={value.image[0]?.replace('localhost', '192.168.1.27')} ></Card.Img>
                                     {
                                         value?.likes.includes(id)
                                             ? <FavoriteIcon className="button3" style={{ color: 'red' }} onClick={() => unlike(value)}></FavoriteIcon>
@@ -175,21 +180,27 @@ function Getpostdata() {
                                             }
 
                                         </div>
-
-
-                                        <input type="text" name="text" onChange={handleChange} value={state?.text || ''} />
-                                        <button className="btncomment" onClick={() => comment(value)}>comment</button>
+                                        <TextField id="standard-basic" type="text"  name="text" variant="standard" placeholder=" Add a comment...." onChange={handleChange} value={state?.text || ''}/>
+                                         {/* <input type="text" name="text" onChange={handleChange} value={state?.text || ''} ></input> */}
+                                        {/* <button className="btncomment" onClick={() => comment(value)}>comment</button> */}
+                                        <Fab size="small" color="secondary" aria-label="add" onClick={() => comment(value)}>
+                                           <AddIcon />
+                                             </Fab>
+                                      
                                     </div>}
 
-                                 
-                                   <button  onClick={() => commentShow(value._id)}>commentShow</button>
+                                 <br/>
+                                 <Fab variant="extended" size="medium" color="success" aria-label="add" onClick={() => commentShow(value._id)}>
+       
+                                     commentShow
+                                      </Fab>
+                                   {/* <button  onClick={() => commentShow(value._id)}>commentShow</button> */}
 
                                 </div>
                                 <DeleteIcon className="delete" onClick={() => deletes(value)}>Delete</DeleteIcon>
 
 
                             </Card>
-
                         )
 
                     })
