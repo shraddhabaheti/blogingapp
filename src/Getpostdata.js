@@ -10,20 +10,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 function Getpostdata() {
     const [postData, setPostData] = useState([])
-    const [btnColor, setBtnColor] = useState('red');
    const [state, setState] = useState({
         text: '',
-     })
+    })
+    const [show,setShow]=useState(true)
     let id = localStorage.getItem('_id')
     const handleChange = (e) => {
         setState({
             ...state,
             [e.target.name]: e.target.value
         })
-       
-
     }
-   const getData = async () => {
+    const getData = async () => {
         const token = localStorage.getItem("token")
         let response = await fetch('http://192.168.1.27:4000/posts/getallposts', {
             method: "GET",
@@ -41,18 +39,16 @@ function Getpostdata() {
     }, [])
     console.log(postData)
     const like = async (data) => {
-         
+
         try {
 
-          
             const token = localStorage.getItem('token')
             const res = await axios.put(`http://192.168.1.27:4000/posts/likes`, { postid: data._id }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-         
-         getData()
+            getData()
         } catch (error) {
             console.log(error)
         }
@@ -61,7 +57,7 @@ function Getpostdata() {
     }
     const unlike = async (data) => {
         try {
-          
+
             const token = localStorage.getItem('token')
             let responce = await axios.put(`http://192.168.1.27:4000/posts/unlikes`, { postid: data._id }, {
                 headers: {
@@ -70,7 +66,9 @@ function Getpostdata() {
                 }
 
             })
-         getData()
+
+            getData()
+
 
         } catch (error) {
 
@@ -93,7 +91,7 @@ function Getpostdata() {
 
         } catch (error) {
             console.log(error)
-         }
+        }
 
     }
 
@@ -106,12 +104,11 @@ function Getpostdata() {
                 {
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                },
+                    },
                 })
-               
-             getData()
+            getData()
             setState({
-               text:''
+                text: ''
             })
 
         } catch (error) {
@@ -119,58 +116,68 @@ function Getpostdata() {
 
         }
     }
-   
+
     return (
         <div>
             <Color />
             <h1 className="h1">Get post data</h1>
             <div className="card1">
-            {
+                {
 
-                postData.map((value, i) => {
+                    postData.map((value, i) => {
 
-                    return (
-                        
-                       <Card className="card">
-                        <div id={value._id}>
-                        <p className="h2">{value.postedBy.name}</p>
-                            <Card.Title>{value.title}</Card.Title>
-                            <Card.Text>{value.content}</Card.Text>
-                           
-                            <Card.Img className="image1" src={value.image[0].replace('localhost', '192.168.1.27')} ></Card.Img>
-                          
-                            {
+                        return (
 
-                              value?.likes.includes(id) 
-                               ?<FavoriteIcon className="button3" style={{ color: btnColor ? 'red' : '' }}  onClick={() => unlike(value)}></FavoriteIcon>
-                               : <FavoriteBorderIcon  className="button3"  onClick={() => like(value)}></FavoriteBorderIcon>
-                               
-                            }
-                            <h6 className="length">{value?.likes?.length} likes </h6>
-                         
-                            <div>
-                                {
-                                    value.comments?.map((value, i) => {
-                                        return (
-                                            <div className="comments">
-                                                <h6>{value.postedBy.name}</h6>
-                                                <p className="p">{value.text}</p>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                            <input type="text" name="text" onChange={handleChange} value={state?.text||''}/>
-                            <button className="btncomment" onClick={() => comment(value)}>comment</button>
-                            <DeleteIcon  onClick={() => deletes(value)}>Delete</DeleteIcon>
-                        </div>
-                        </Card>
-                        
-                    )
+                            <Card className="card">
+                                <div id={value._id}>
+                                    <p className="h2">{value.postedBy.name}</p>
 
-                })
-            }
-           </div>
+                                    <Card.Title>{value.title}</Card.Title>
+                                    <Card.Text>{value.content}</Card.Text>
+
+                                    <Card.Img className="image1" src={value.image[0].replace('localhost', '192.168.1.27')} ></Card.Img>
+                                    {
+                                        value?.likes.includes(id)
+                                            ? <FavoriteIcon className="button3" style={{ color: 'red' }} onClick={() => unlike(value)}></FavoriteIcon>
+                                            : <FavoriteBorderIcon className="button3" onClick={() => like(value)}></FavoriteBorderIcon>
+
+                                    }
+                                    <h6 className="length">{value?.likes?.length} likes </h6>
+
+                                
+                                  <div>
+                                     
+                                       {   
+                                            value.comments?.map((value, i) => {
+                                                return (
+                                                     <div className="comments">
+                                                        <h6>{value.postedBy.name}</h6>
+                                                        <p className="p">{value.text}</p>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                        
+                                    </div>
+                                    
+                                    
+                                    <input type="text" name="text" onChange={handleChange} value={state?.text || ''} />
+                                    <button className="btncomment" onClick={() => comment(value)}>comment</button>
+                                  
+                                    
+                                    </div>
+                    
+                                   
+                                    <DeleteIcon className="delete" onClick={() => deletes(value)}>Delete</DeleteIcon>
+
+                            
+                            </Card>
+
+                        )
+
+                    })
+                }
+            </div>
         </div>
     )
 }

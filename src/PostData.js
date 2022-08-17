@@ -64,6 +64,7 @@ function PostData() {
 
             <form onSubmit={submit}>
                 <input type="text" name="title" onChange={handleChange} /><br /><br />
+                
                 <textarea type="text" name="content" onChange={handleChange}></textarea>
                 <br /><br />
                 <input type="file" name="image" onChange={handleAddfile} />
