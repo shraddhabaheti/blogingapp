@@ -8,13 +8,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { isValidDateValue } from "@testing-library/user-event/dist/utils";
+import { Identity } from "@mui/base";
+import { FlashOnOutlined } from "@mui/icons-material";
+
 function Getpostdata() {
     const [postData, setPostData] = useState([])
-   const [state, setState] = useState({
+    const [state, setState] = useState({
         text: '',
     })
-    const [show,setShow]=useState(true)
-    let id = localStorage.getItem('_id')
+    const [show, setShow] = useState([])
+     let id = localStorage.getItem('_id')
     const handleChange = (e) => {
         setState({
             ...state,
@@ -116,16 +120,25 @@ function Getpostdata() {
 
         }
     }
+    const commentShow = (id) => {
+        if (show.includes(id)) {
+            let findIndex = show.indexOf(id)
+            setShow((sShow) => sShow.filter((value, index) => index !== findIndex))
+        } else {
+            setShow((sShow) => [...sShow, id])
+        }
+    }
+   
 
     return (
         <div>
             <Color />
             <h1 className="h1">Get post data</h1>
             <div className="card1">
+
                 {
 
                     postData.map((value, i) => {
-
                         return (
 
                             <Card className="card">
@@ -144,33 +157,37 @@ function Getpostdata() {
                                     }
                                     <h6 className="length">{value?.likes?.length} likes </h6>
 
-                                
-                                  <div>
-                                     
-                                       {   
-                                            value.comments?.map((value, i) => {
-                                                return (
-                                                     <div className="comments">
-                                                        <h6>{value.postedBy.name}</h6>
-                                                        <p className="p">{value.text}</p>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                        
-                                    </div>
-                                    
-                                    
-                                    <input type="text" name="text" onChange={handleChange} value={state?.text || ''} />
-                                    <button className="btncomment" onClick={() => comment(value)}>comment</button>
-                                  
-                                    
-                                    </div>
-                    
-                                   
-                                    <DeleteIcon className="delete" onClick={() => deletes(value)}>Delete</DeleteIcon>
 
-                            
+                                    {show.includes(value._id) && <div>
+
+                                        <div>
+                                            {
+
+                                                value.comments?.map((value, i) => {
+
+                                                    return (
+                                                        <div className="comments">
+                                                            <h6>{value.postedBy.name}</h6>
+                                                            <p className="p">{value.text}</p>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+
+                                        </div>
+
+
+                                        <input type="text" name="text" onChange={handleChange} value={state?.text || ''} />
+                                        <button className="btncomment" onClick={() => comment(value)}>comment</button>
+                                    </div>}
+
+                                 
+                                   <button  onClick={() => commentShow(value._id)}>commentShow</button>
+
+                                </div>
+                                <DeleteIcon className="delete" onClick={() => deletes(value)}>Delete</DeleteIcon>
+
+
                             </Card>
 
                         )
