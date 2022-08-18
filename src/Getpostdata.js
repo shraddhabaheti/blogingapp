@@ -14,12 +14,16 @@ import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 import { Identity } from "@mui/base";
 import { FlashOnOutlined } from "@mui/icons-material";
 import TextField from '@mui/material/TextField';
+//import CommentIcon from '@material-ui/icons/Comment';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 function Getpostdata() {
     const [postData, setPostData] = useState([])
     const [state, setState] = useState({
         text: '',
     })
     const [show, setShow] = useState([])
+    //const [toggle,setToggle]=useState(false);
    let id = localStorage.getItem('_id')
     const handleChange = (e) => {
         setState({
@@ -28,6 +32,7 @@ function Getpostdata() {
         })
     }
     const getData = async () => {
+     
         const token = localStorage.getItem("token")
         let response = await fetch('http://192.168.1.27:4000/posts/getallposts', {
             method: "GET",
@@ -122,18 +127,42 @@ function Getpostdata() {
 
         }
     }
-    const commentShow = (id) => {
-      
-        if (show.includes(id)) {
-            let findIndex = show.indexOf(id)
-            setShow((sShow) => sShow.filter((value, index) => index !== findIndex))
+    // const commentShow = (id) => {
+       
+    //     if (show.includes(id)) {
+    //         let findIndex = show.indexOf(id)
+    //         setShow((sShow) => sShow.filter((value, index) => index !== findIndex))
            
-        } else {
-            setShow((sShow) => [...sShow, id])
+    //     } else {
+    //         setShow((sShow) => [...sShow, id])
            
-        }
-    }
-   
+    //     }
+    // }
+    //  const commentShow=(i)=>{
+    //          if(show.includes(i)){
+    //          let findIndex =show.indexOf(i)
+    //          setShow((sdata)=>sdata.filter((value,index)=>index !== findIndex))
+    //      }else{
+    //           setShow((sdata)=>[...sdata,i])
+    //      }
+    //  }
+   const commentShow=(id)=>{
+        if(show.includes(id)){
+           setShow((sdata)=>sdata.filter((value)=>!value.includes(id)))
+       }else{
+       setShow((sdata)=>[...sdata,id])
+       }
+  }
+    //      const commentShow=(id)=>{
+            
+    //           if(show.includes(id)){
+    //            setShow((sdata)=>sdata.splice((value)=>value.includes(id)))
+               
+    //        }else{
+    //        setShow((sdata)=>[...sdata,id])
+         
+    //        }
+    //   }
 
     return (
         <div>
@@ -142,8 +171,9 @@ function Getpostdata() {
             <div className="card1">
 
                 {
-
-                    postData.map((value, i) => {
+                    
+                    postData?.newData?.map((value, i) => {
+                        
                         return (
 
                             <Card className="card">
@@ -155,7 +185,7 @@ function Getpostdata() {
 
                                     <Card.Img className="image1" src={value.image[0]?.replace('localhost', '192.168.1.27')} ></Card.Img>
                                     {
-                                        value?.likes.includes(id)
+                                           value?.likes.includes(id)
                                             ? <FavoriteIcon className="button3" style={{ color: 'red' }} onClick={() => unlike(value)}></FavoriteIcon>
                                             : <FavoriteBorderIcon className="button3" onClick={() => like(value)}></FavoriteBorderIcon>
 
@@ -186,16 +216,20 @@ function Getpostdata() {
                                         <Fab size="small" color="secondary" aria-label="add" onClick={() => comment(value)}>
                                            <AddIcon />
                                              </Fab>
+                                             
                                       
                                     </div>}
 
                                  <br/>
-                                 <Fab variant="extended" size="medium" color="success" aria-label="add" onClick={() => commentShow(value._id)}>
+                                
+                                      {/* <Fab variant="extended" size="medium" color="success" aria-label="add" onClick={() => commentShow(value._id)}>
        
                                      commentShow
-                                      </Fab>
-                                   {/* <button  onClick={() => commentShow(value._id)}>commentShow</button> */}
-
+                                      </Fab> */}
+                                   <button onClick={() => commentShow(value?._id)}>commentShow</button>
+                                   {/* {
+                                     toggle ?<KeyboardDoubleArrowDownIcon   onClick={() => commentShow(value._id)} />:<KeyboardDoubleArrowUpIcon  onClick={() => commentShow(value._id)}/>
+                                    } */}
                                 </div>
                                 <DeleteIcon className="delete" onClick={() => deletes(value)}>Delete</DeleteIcon>
 
@@ -206,7 +240,7 @@ function Getpostdata() {
                     })
                 }
             </div>
-        </div>
+         </div>
     )
 }
 export default Getpostdata;

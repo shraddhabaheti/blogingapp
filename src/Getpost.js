@@ -18,7 +18,7 @@ function Getpost() {
             <Color/>
             <h1 className="h1">Get post data redux</h1>
             {
-                data.map((post,i)=>{
+                data?.newData?.map((post,i)=>{
                     
                     return(
                         <div id={post._id}>
